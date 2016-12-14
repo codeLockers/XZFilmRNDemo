@@ -1,5 +1,13 @@
-import React, { Component, } from 'react'
-import { View,Text ,Navigator,ScrollView,Image} from 'react-native'
+import React, {
+  Component,
+} from 'react'
+import {
+  View,
+  Text,
+  Navigator,
+  ScrollView,
+  Image
+} from 'react-native'
 
 class XzMovieDetailScreen extends Component {
 
@@ -10,15 +18,18 @@ class XzMovieDetailScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+
+
+
   }
 
-  componentDidMount(){
-    
-//     console.log('didMount')
-    
+  componentDidMount() {
+
+    //     console.log('didMount')
+
   }
-  
-  
+
+
   //  _pressButton(){
 
   //    console.log(this.props.movie.id)
@@ -29,27 +40,27 @@ class XzMovieDetailScreen extends Component {
   //      navigator.pop()
   //   }
   // }
-  
+
   render() {
 
     return (
       <ScrollView style = {{flex : 1 ,paddingTop:64}}>
             <IntroduceView movie = {this.props.movie}/>
-            <View style = {{backgroundColor:'black',height:1}}></View>
+            <View style = {{backgroundColor:'black',height:1}}><Text>ffff</Text></View>
             <ContentView synopsis={this.props.movie.synopsis}/>
-            <View style = {{backgroundColor:'black',height:1}}></View>
+            <View style = {{backgroundColor:'black',height:1}}><Text>ffff</Text></View>
             <CastView cast={this.props.movie.abridged_cast}/>
       </ScrollView>
-      
+
     )
   }
 }
 
-class IntroduceView extends Component{
+class IntroduceView extends Component {
 
-  render(){
+  render() {
 
-    return(
+    return (
 
       <View style = {{height:230,flexDirection:'row'}}>
         <View style = {{margin:5,width:150,backgroundColor:'green'}}>
@@ -77,33 +88,32 @@ class IntroduceView extends Component{
   }
 }
 
-class ContentView extends Component{
+class ContentView extends Component {
 
   static propTypes = {}
 
-  static defaultProps = {
-  }
+  static defaultProps = {}
 
   constructor(props) {
     super(props)
   }
 
 
-  render(){
+  render() {
 
-    return(
+    return (
       <View>
         <Text style = {{margin:5,fontSize:15}}>{this.props.synopsis}</Text>
       </View>
-      )
+    )
   }
 }
 
-class CastView extends Component{
+class CastView extends Component {
 
-  render(){
+  render() {
     console.log(this.props.cast)
-    return(
+    return (
       <View>
       <Text style={{marginLeft:5}}>Actors</Text>
         {this.props.cast.map((x,i) => 

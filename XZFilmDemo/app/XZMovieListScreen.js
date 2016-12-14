@@ -1,14 +1,17 @@
-import React, { Component, } from 'react'
-import { View,
-        Text,
-        StyleSheet,
-        TouchableOpacity,
-        Navigator,
-        DeviceEventEmitter,
-        ListView,
-        ScrollView,
-        ActivityIndicator
-       } from 'react-native'
+import React, {
+  Component,
+} from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Navigator,
+  DeviceEventEmitter,
+  ListView,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native'
 
 import XZMovieDetailScreen from './XZMovieDetailScreen'
 import XZMovieListCell from './XZMovieListCell'
@@ -19,43 +22,45 @@ var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
 
 
 class XzMovieListScreen extends Component {
-  
+
   //Life_Circle
   static propTypes = {}
 
-  static defaultProps = {
-  }
+  static defaultProps = {}
 
   constructor(props) {
     super(props)
     this.state = {
       // isLoading : false,
-      isLoading : false,
-      queryNumber : 1,
-      queryArray : [],
-      query:'',
-      dataSource : new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2})
+      isLoading: false,
+      queryNumber: 1,
+      queryArray: [],
+      name: '',
+      query: '',
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2
+      })
     }
   }
-  
-  componentDidMount(){
-    this._searchMovies('',1)
+
+  componentDidMount() {
+    this._searchMovies('', 1)
   }
-  
+
   //Private_Methods
-  getDataSource(movies){
+  getDataSource(movies) {
     return this.state.dataSource.cloneWithRows(movies)
   }
 
   //API_Methods
   //生成请求的URL
-  _urlForQueryAndPage(query ,pageNumber){
+  _urlForQueryAndPage(query, pageNumber) {
 
     let url = ''
-    if(query){
+    if (query) {
       url = API_URL + 'movies.json?apikey=' + API_KEY + '&q=' +
         encodeURIComponent(query) + '&page_limit=20&page=' + pageNumber
-    }else{
+    } else {
       url = API_URL + 'lists/movies/in_theaters.json?apikey=' + API_KEY +
         '&page_limit=20&page=' + pageNumber
     }
@@ -63,53 +68,53 @@ class XzMovieListScreen extends Component {
     return (url)
   }
 
-  _searchMovies(query,page){
+  _searchMovies(query, page) {
 
     console.log(query + '---' + page)
 
     this.state.query = query
     this.state.isLoading = true
 
-    fetch(this._urlForQueryAndPage(this.state.query,page))
-    .then((response) => response.json())
-    .then((responseData) => {
+    fetch(this._urlForQueryAndPage(this.state.query, page))
+      .then((response) => response.json())
+      .then((responseData) => {
 
-      console.log('response successfully')
+        console.log('response successfully')
 
-      if(page ==1){
-        this.state.queryArray.length = 0
-      }
+        if (page == 1) {
+          this.state.queryArray.length = 0
+        }
 
-      console.log(responseData.movies.length)
+        console.log(responseData.movies.length)
 
-      this.state.queryArray = [...this.state.queryArray,...Array.from(responseData.movies)]
+        this.state.queryArray = [...this.state.queryArray, ...Array.from(responseData.movies)]
 
-      this.setState({
-        dataSource : this.getDataSource(this.state.queryArray)
+        this.setState({
+          dataSource: this.getDataSource(this.state.queryArray)
+        })
+
+        this.state.isLoading = false
       })
+      .catch((error) => {
+        console.warn(error);
+      });
 
-      this.state.isLoading = false
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
-    
   }
-  
-  _pressCell(movie){
+
+  _pressCell(movie) {
 
     this.props.navigator.push({
 
-      title:movie.title,
-      component:XZMovieDetailScreen,
-      leftButtonTitle:'返回',
-      movie:movie
+      title: movie.title,
+      component: XZMovieDetailScreen,
+      leftButtonTitle: '返回',
+      movie: movie
     })
 
   }
 
   //ListView_Methods
-  _renderSeparator(sectionID,rowID,adjacentRowHighlighted){
+  _renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
     return (
       <View
         key = {sectionID + rowID + adjacentRowHighlighted} 
@@ -117,22 +122,22 @@ class XzMovieListScreen extends Component {
       </View>
     );
   }
-  
-  _renderRow(movie,sectionID,rowID){
 
-    return(
+  _renderRow(movie, sectionID, rowID) {
+
+    return (
       <XZMovieListCell 
       movie = {movie}
       pressed = {() => this._pressCell(movie)}
       />
     );
   }
-  
-  _renderFooter(){
 
-    if(!this.state.isLoading){
+  _renderFooter() {
+
+    if (!this.state.isLoading) {
       return (
-        <View style ={{backgroundColor :'white',height:20}}></View>
+        <View style ={styles.container}></View>
       )
     }
 
@@ -141,20 +146,20 @@ class XzMovieListScreen extends Component {
     )
   }
 
-  _onEndReached(){
+  _onEndReached() {
 
-    if(this.state.isLoading){
+    if (this.state.isLoading) {
       return
     }
 
     this.state.queryNumber += 1
-    this._searchMovies(this.state.query,this.state.queryNumber)
+    this._searchMovies(this.state.query, this.state.queryNumber)
   }
 
   render() {
 
     return (
-        <View style = {{flex:1}}>
+      <View style = {{flex:1}}>
           <XZSearchBar search = {this._searchMovies.bind(this)}/>
           <ListView
           style = {{backgroundColor:'white',flex:1}}
@@ -163,6 +168,7 @@ class XzMovieListScreen extends Component {
           renderRow = {this._renderRow.bind(this)}
           renderFooter = {this._renderFooter.bind(this)}
           onEndReached = {this._onEndReached.bind(this)}
+          iosautomaticallyAdjustContentInsets = {true}
           />
         </View>
     )
@@ -170,16 +176,15 @@ class XzMovieListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  
-  container : {
-    flex :1,
-    backgroundColor : 'white',
-    alignItems : 'center',
-    justifyContent : 'center'
+
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  
+
 });
 
 //导出使得外部可以访问使用
 export default XzMovieListScreen
-

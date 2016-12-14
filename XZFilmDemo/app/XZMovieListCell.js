@@ -1,12 +1,21 @@
-import React, { Component, } from 'react'
-import { View, Text,Image,TouchableOpacity} from 'react-native'
+import React, {
+  Component,
+} from 'react'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity
+} from 'react-native'
 
 class XzMovieListCell extends Component {
 
   static propTypes = {}
 
   static defaultProps = {
-    
+
+
+
   }
 
   constructor(props) {
@@ -14,7 +23,7 @@ class XzMovieListCell extends Component {
     this.state = {}
   }
 
-  _test(){
+  _test() {
 
     console.log('xuzhang ')
   }

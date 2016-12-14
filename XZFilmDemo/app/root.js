@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -13,17 +15,25 @@ import XZMovieListScreen from './XZMovieListScreen'
 
 
 export default class XZFilmDemo extends Component {
-  
+
   _renderNavBar() {
     const styles = {
       title: {
-        flex: 1, alignItems: 'center', justifyContent: 'center'
+        flex: 1,
+        width: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
       },
       button: {
-        flex: 1, width: 50, alignItems: 'center', justifyContent: 'center'
+        flex: 1,
+        width: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
       },
       buttonText: {
-        fontSize: 18, color: '#FFFFFF', fontWeight: '400'
+        fontSize: 18,
+        color: '#FFFFFF',
+        fontWeight: '400'
       }
     }
 
@@ -32,8 +42,8 @@ export default class XZFilmDemo extends Component {
 
       },
       LeftButton(route, navigator, index, navState) {
-        if(index > 0){
-          
+        if (index > 0) {
+
           return (
             <TouchableOpacity 
               onPress={() => navigator.pop()}
@@ -55,32 +65,40 @@ export default class XZFilmDemo extends Component {
       }
     }
 
-    return (
-      <Navigator.NavigationBar
-        style={{
+    return ( < Navigator.NavigationBar style = {
+        {
           alignItems: 'center',
-          justifyContent : 'center',
+          justifyContent: 'center',
           backgroundColor: '#55ACEE',
-        }}
-          routeMapper={routeMapper}
+        }
+      }
+      routeMapper = {
+        routeMapper
+      }
       />
     );
   }
 
   render() {
-    return (
-        <Navigator
-        style = {styles.container}
-        initialRoute = {{
+    return ( < Navigator style = {
+        styles.container
+      }
+      initialRoute = {
+        {
           component: XZMovieListScreen,
           title: '电影列表'
-        }}
+        }
+      }
 
-        renderScene={(route, navigator) => {
+      renderScene = {
+        (route, navigator) => {
           return <route.component {...route} navigator={navigator} />
-        }}
-        navigationBar={this._renderNavBar()}
-        />
+        }
+      }
+      navigationBar = {
+        this._renderNavBar()
+      }
+      />
     );
   }
 }
